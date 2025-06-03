@@ -257,7 +257,7 @@ source $KERNEL/tools/bpf/bpftool/bash-completion/bpftool
 eval \$(resize)
 EOF
 
-	cd linux-dev-env 
+	cd bpf-dev-env 
 
 	if [ -n "$ARGS" ]; then
 		say non-interactive bash script
