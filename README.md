@@ -98,3 +98,20 @@ There is also a bpf-progs directory that has a make file to make building bpf pr
 There is a naming scheme where programs of the form `*.kern.c` are built as BPF objects, while programs of the form `*.user.c` are
 built as user space programs.
 
+*Running BPF sample*
+```
+make qemu-run
+
+cd bpf-progs
+
+make
+
+./load.user helloworld.kern.o bpf_demo &
+
+./trigger.user
+<ENTER>
+
+bpftool prog tracelog
+```
+
+at this point you should be able to see the prints
