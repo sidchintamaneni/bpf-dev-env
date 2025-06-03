@@ -44,3 +44,14 @@ linux-clean:
 enter-docker:
 	docker run --rm -v ${BASE_PROJ}:/bpf-dev-env -w /bpf-dev-env -it bpf-runtime-dev /bin/bash
 
+libbpf:
+	docker run --rm -v ${LINUX}:/linux -w /linux/tools/lib/bpf bpf-runtime-dev make -j`nproc`
+
+libbpf-clean:
+	docker run --rm -v ${LINUX}:/linux -w /linux/tools/lib/bpf bpf-runtime-dev make clean -j`nproc`
+
+bpftool:
+	docker run --rm -v ${LINUX}:/linux -w /linux/tools/bpf/bpftool bpf-runtime-dev make -j`nproc`
+
+bpftool-clean:
+	docker run --rm -v ${LINUX}:/linux -w /linux/tools/bpf/bpftool bpf-runtime-dev make clean -j`nproc`
