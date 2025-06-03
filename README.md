@@ -7,7 +7,7 @@ The second is a QEMU  script that boots a virtual machine running a custom versi
 Using these together allows you to easily make and test changes to the Linux kernel without needing to
     manage all the packages locally.
 
-***This repository is cloned and modified from rosalab/(unknown)-kernel***
+***This repository is cloned and modified from rosalab@Virginia Tech***
 
 #### Build Docker Container
 
@@ -21,6 +21,16 @@ git submodule init
 
 # This will take some time.
 git submodule update
+```
+
+#### Update remote urls for linux
+Update your own forks
+
+```
+git remote set-url origin git@github.com:torvalds/linux.git
+git remote -v
+git remote add bpf git@github.com:kernel-patches/bpf.git
+git remote -v
 ```
 
 #### Copy config file to linux folder
@@ -77,4 +87,14 @@ You must modify the q-script to connect the DOCKER_PORT to a QEMU_PORT.
 In the q-script you must append a new rule.
 Find the line that starts with `"net += -netdev user..."`.
 Then at the end of the line add the text ```"hostfwd=tcp::DOCKER_PORT-:QEMU_PORT"```
+
+## BPF Enabled
+This branch has BPF enabled.
+You can use `make libbpf` to build libbpf inside the docker container.
+You can use `make bpftool` to build bpftool inside the docker container.
+Both have a respective clean target to clean these.
+
+There is also a bpf-progs directory that has a make file to make building bpf programs easy.
+There is a naming scheme where programs of the form `*.kern.c` are built as BPF objects, while programs of the form `*.user.c` are
+built as user space programs.
 
