@@ -95,7 +95,7 @@ say() {
 
 # This function is called _AFTER_ QEMU starts (on guest).
 guest() {
-	export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+	export PATH=/usr/local/bin:/bin:/sbin:/usr/bin:/usr/sbin
 
 	say pivot root
 
@@ -284,8 +284,8 @@ SSH=n
 CMDLINE=""
 QEMUARG=""
 
-NRCPU=4
-MEMORY=2048
+NRCPU=8
+MEMORY=4096
 
 while getopts "hgmsk:c:a:H:N:M:q:" opt; do
 	case $opt in

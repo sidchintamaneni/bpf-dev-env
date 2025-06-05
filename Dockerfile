@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 as Linux-builder
+FROM ubuntu:24.04 AS bpf-linux-builder
 
 ENV LINUX=/linux 
 
@@ -20,8 +20,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --fix-missing -y git build-es
  iputils-ping kmod
 
 # clang and llvm
-RUN DEBIAN_FRONTEND=noninteractive apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y clang llvm lld
+RUN wget https://apt.llvm.org/llvm.sh
+RUN chmod +x llvm.sh
+RUN ./llvm.sh 20
+RUN ln -s /usr/bin/clang-20 /usr/bin/clang
+RUN ln -s /usr/bin/clang++-20 /usr/bin/clang++
+RUN ln -s /usr/bin/ld.lld-20 /usr/bin/ld.lld
 
 # Essentials
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
@@ -30,3 +34,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y iputils-ping kmod curl aut
 # SCX tools
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y protobuf-compiler
+
+# SCX tools
+RUN DEBIAN_FRONTEND=noninteractive apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-docutils
+
+# Pahole versin update for bpf selftests build
+RUN git clone --depth=1 --branch=v1.29 https://git.kernel.org/pub/scm/devel/pahole/pahole.git && \
+cd pahole && mkdir build && cd build && cmake .. && make -j$(nproc) && make install && cp ./pahole /usr/local/bin/pahole && pahole --version
+
