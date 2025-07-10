@@ -1,3 +1,6 @@
 [submodule "linux"]
 	path = linux
 	url = git@github.com:rosalab/linux.git
+[submodule "openipmi"]
+	path = openipmi
+	url = git@github.com:cminyard/openipmi.git
