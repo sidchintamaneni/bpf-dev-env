@@ -43,9 +43,9 @@ int main(int argc, char *argv[])
 
     bpf_program__attach(program);
 
-    while (1) {
-        sleep(1);
-    }
+	getchar();
+	char buf[256];
+    getcwd(buf, 256);
 
     return 0;
 }
